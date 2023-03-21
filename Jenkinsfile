@@ -9,6 +9,13 @@ pipeline {
             deleteDir()
         }
     }
+    
+    stage('Clone Repos') {
+        steps {
+            checkout scm
+        }
+    }
+
     stage('Run Selenium Test') {
         steps {
             sh 'wget https://raw.githubusercontent.com/drozkie/webtest/main/helloworld.py'

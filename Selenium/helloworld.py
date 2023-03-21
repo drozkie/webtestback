@@ -17,7 +17,7 @@ capabilities = {
     "browserName" : "Chrome",
     "version" : "88.0",
     "resolution" : "1920x1080",
-    "tunnel" : True
+    "tunnel" : True==
 }
 
 driver.get("http://192.168.1.149:8081/")
@@ -27,13 +27,15 @@ print("Page Title from source code: " + driver.title)
 driver.save_screenshot('s1.png')
 screenshot = Image.open('s1.png')
 #screenshot.show() #commented for CLI run-time
-assert "Selenium Test" in driver.title
-driver.find_element("id", "pipe").click()
-assert "http://192.168.1.149:8081/pipeline.html" in driver.current_url
+assert "Hello BAH - HoH 23-1" in driver.title
+driver.find_element("id", "play").click()
+assert "http://192.168.1.149:8081/game.html" in driver.current_url
 driver.save_screenshot('s2.png')
 screenshot2 = Image.open('s2.png')
 #screenshot2.show() #commented for CLI run-time
-assert "Version" in driver.page_source
+assert "//cdn.jsdelivr.net/npm/phaser@3.55.1/dist/phaser.min.js" in driver.page_source
+assert "/socket.io/socket.io.js" in driver.page_source
+assert "js/game.js" in driver.page_source
 version = driver.find_element("id", "version").text
 driver
 print("Current Version Info: " + version)
