@@ -23,10 +23,11 @@ capabilities = {
 
 try:
     driver.get("http://192.168.1.149:8081/")
-    assert "No results found." not in driver.page_source
+    assert "no such file or directory" not in driver.page_source
     
     #Test correct index page has loaded
     print("Selenium Test Started")
+    print("")
     assert "Hello BAH - HoH 23-1" in driver.title
     t1url = driver.current_url
     print("Testing @ " + t1url)
@@ -39,7 +40,8 @@ try:
     #Test link & navigate to 2nd test element
     driver.find_element("id", "play").click()
     assert "http://192.168.1.149:8081/game.html" in driver.current_url    
-    print(t1url + "test PASS")
+    print(t1url + " --- PASS")
+    print("")
 
     #Test game page has loaded and verify script sources
     t2url = driver.current_url
@@ -53,7 +55,8 @@ try:
     assert "//cdn.jsdelivr.net/npm/phaser@3.55.1/dist/phaser.min.js" in driver.page_source
     assert "/socket.io/socket.io.js" in driver.page_source
     assert "js/game.js" in driver.page_source
-    print(t2url + "test PASS")
+    print(t2url + " --- PASS")
+    print("")
     
     #Wrap Up
     print("Selenium Test Complete - Test Pass")
