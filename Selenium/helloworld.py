@@ -24,23 +24,38 @@ capabilities = {
 try:
     driver.get("http://192.168.1.149:8081/")
     assert "No results found." not in driver.page_source
+    
+    #Test correct index page has loaded
     print("Selenium Test Started")
-    print("Page Title from source code: " + driver.title)
+    assert "Hello BAH - HoH 23-1" in driver.title
+    t1url = driver.current_url
+    print("Testing @ " + t1url)
+    print("Page Title: " + driver.title)
     driver.save_screenshot('s1.png')
     screenshot = Image.open('s1.png')
+    assert "Booz | Allen | Hamilton" in driver.page_source
     #screenshot.show() #commented for CLI run-time
-    assert "Hello BAH - HoH 23-1" in driver.title
+
+    #Test link & navigate to 2nd test element
     driver.find_element("id", "play").click()
-    assert "http://192.168.1.149:8081/game.html" in driver.current_url
+    assert "http://192.168.1.149:8081/game.html" in driver.current_url    
+    print(t1url + "test PASS")
+
+    #Test game page has loaded and verify script sources
+    t2url = driver.current_url
+    print("Testing @ " + t2url)
+    print("Page Title: " + driver.title)
     driver.save_screenshot('s2.png')
     screenshot2 = Image.open('s2.png')
     #screenshot2.show() #commented for CLI run-time
+    version = driver.find_element("id", "version").text
+    print("Current Version Info: " + version)
     assert "//cdn.jsdelivr.net/npm/phaser@3.55.1/dist/phaser.min.js" in driver.page_source
     assert "/socket.io/socket.io.js" in driver.page_source
     assert "js/game.js" in driver.page_source
-    version = driver.find_element("id", "version").text
-    driver
-    print("Current Version Info: " + version)
+    print(t2url + "test PASS")
+    
+    #Wrap Up
     print("Selenium Test Complete - Test Pass")
 except AssertionError:
     print("Assertion Error:")
