@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bahttleship
+  labels:
+    app: bahttleship
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bahttleship
+  template:
+    metadata:
+      labels:
+        app: bahttleship
+    spec:
+        containers:
+        -   name: bahttleship
+            image: 0xniel/bahttleship
+            ports:
+            - containerPort: 8081
+            resources:
+                limits:
+                    cpu: "500m"
+                    memory: "256Mi"
+                requests:
+                    cpu: "100m"
+                    memory: "128Mi"

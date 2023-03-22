@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+    name: selenium-job
+spec:
+    completions: 1
+    template:
+      spec:
+        imagePullSecrets:
+          - name: drozkiedh
+        containers:
+          - name: selenium
+            image: drozkie/drozkiehoh:dns1.0.2
+            ports:
+            - containerPort: 4444
+        restartPolicy: Never

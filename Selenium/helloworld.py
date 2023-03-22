@@ -22,7 +22,7 @@ capabilities = {
 }
 
 try:
-    driver.get("http://192.168.1.149:8081/")
+    driver.get("http://bahttleship:8081/")
     assert "no such file or directory" not in driver.page_source
     
     #Test correct index page has loaded
@@ -31,7 +31,8 @@ try:
     assert "Hello BAH - HoH 23-1" in driver.title
     t1url = driver.current_url
     print("Testing @ " + t1url)
-    print("Page Title: " + driver.title)
+    t1title = driver.title
+    print("Page Title: " + t1title)
     driver.save_screenshot('s1.png')
     screenshot = Image.open('s1.png')
     assert "Booz | Allen | Hamilton" in driver.page_source
@@ -39,14 +40,15 @@ try:
 
     #Test link & navigate to 2nd test element
     driver.find_element("id", "play").click()
-    assert "http://192.168.1.149:8081/game.html" in driver.current_url    
+    assert "http://bahttleship:8081/game.html" in driver.current_url    
     print(t1url + " --- PASS")
     print("")
 
     #Test game page has loaded and verify script sources
     t2url = driver.current_url
     print("Testing @ " + t2url)
-    print("Page Title: " + driver.title)
+    t2title = driver.title
+    print("Page Title: " + t2title)
     driver.save_screenshot('s2.png')
     screenshot2 = Image.open('s2.png')
     #screenshot2.show() #commented for CLI run-time
@@ -60,8 +62,22 @@ try:
     
     #Wrap Up
     print("Selenium Test Complete - Test Pass")
+
+    #with open("/app/test.log", "w") as f:
+    #    f.write("TEST PASS\n")
+    #    f.write(" \n")
+    #    f.write(t1url + " --- PASS\n")
+    #    f.write(t1title + "\n")
+    #    f.write(" \n")
+    #    f.write(t2url + " --- PASS\n")
+    #    f.write(t2title)
+
 except AssertionError:
     print("Assertion Error:")
     traceback.print_exc()
-finally: 
+
+    #with open("/app/test.log", "w") as f:
+    #    f.write(traceback.print_exc())
+
+finally:
     driver.quit()

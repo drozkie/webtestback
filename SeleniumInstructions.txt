@@ -1,0 +1,18 @@
+NOTES FOR THE MORNING
+
+We should make the repository private and use a token / set credentials in k8s
+this helps show max security is considered
+
+
+Steps to create test env
+
+NOTE: Ensure all selectors match for test env (ie. app: bahttleship)
+1. Build the game Image and push to repository
+2. Create a k8s job with new Image to run game (maybe new image name will be based on env variable?)
+    NOTE: Wait until running
+3. Create DNS service
+4. Start k8s job for selenium (see instructions file you made)
+    -- get logs from run, print to jenkins console
+    -- find a way to limit number of failures
+5. If successful, delete both the game and selenium jobs
+6. Initiate push to production pipeline

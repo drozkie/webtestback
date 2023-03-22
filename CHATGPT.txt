@@ -1,0 +1,74 @@
+You can configure Jenkins to wait for a Job to complete in Kubernetes by using the Kubernetes Continuous Deploy plugin.
+
+Here are the steps to follow:
+
+Install the Kubernetes Continuous Deploy plugin in your Jenkins instance.
+
+Create a new Jenkins pipeline job and configure it to use the Kubernetes Continuous Deploy plugin.
+
+In the pipeline script, use the kubernetesDeploy step to deploy the Job in Kubernetes. Here's an example:
+
+php
+Copy code
+stage('Deploy Job') {
+    steps {
+        kubernetesDeploy(
+            kubeconfigId: '<kubeconfig-id>',
+            configs: 'path/to/job.yaml',
+            enableConfigSubstitution: true,
+            wait: true,
+            verify: true
+        )
+    }
+}
+Replace <kubeconfig-id> with the ID of your Kubernetes configuration in Jenkins, and path/to/job.yaml with the path to your Job configuration file.
+
+In the kubernetesDeploy step, set the wait parameter to true to make Jenkins wait for the Job to complete before moving on to the next step.
+
+You can also set the verify parameter to true to verify that the Job completed successfully before continuing.
+
+After the Job completes, you can retrieve the logs or other output using the Kubernetes API or kubectl commands.
+
+By configuring Jenkins to wait for the Job to complete, you can ensure that your pipeline runs smoothly and that your application is deployed successfully in Kubernetes.
+
+
+
+
+Jason Droz
+How can I get the logs from a kubernetes job back into the jenkins pipeline?
+You can get the logs from a Kubernetes Job back into the Jenkins pipeline by using the Kubernetes Continuous Deploy plugin and the Kubernetes API.
+
+Here are the steps to follow:
+
+Deploy your Kubernetes Job using the kubernetesDeploy step in the Jenkins pipeline, as described in my previous answer.
+
+After the Job completes, use the Kubernetes API to retrieve the logs for the Pods in the Job. You can do this using the following command:
+
+php
+Copy code
+kubectl logs <pod-name>
+Replace <pod-name> with the name of the Pod that you want to retrieve the logs for.
+
+In the Jenkins pipeline, use the kubernetesApi step from the Kubernetes Continuous Deploy plugin to retrieve the logs from the Kubernetes API. Here's an example:
+
+php
+Copy code
+stage('Retrieve Logs') {
+    steps {
+        script {
+            def podName = sh(returnStdout: true, script: "kubectl get pods -l job-name=<job-name> -o jsonpath='{.items[0].metadata.name}'")
+            def logs = kubernetesApi(
+                kubeconfigId: '<kubeconfig-id>',
+                resourceType: 'pods',
+                resourceName: podName,
+                subResource: 'log'
+            )
+            echo logs
+        }
+    }
+}
+Replace <job-name> with the name of your Job, <kubeconfig-id> with the ID of your Kubernetes configuration in Jenkins, and echo logs with whatever action you want to take with the logs.
+
+In the kubernetesApi step, set the resourceType parameter to 'pods' and the subResource parameter to 'log' to retrieve the logs from the Kubernetes API.
+
+By retrieving the logs from the Kubernetes API, you can easily integrate them into your Jenkins pipeline and take whatever actions you need to based on the contents of the logs.
